@@ -1,0 +1,77 @@
+local Players = game:GetService("Players")
+
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/iiX0Lords/Building/main/GlobalFunction'),true))()
+
+function loadInstanceWithScripts(id,parent)
+    local loadedInstance = game:GetObjects(id)[1]
+    loadedInstance.Parent = parent
+    local function loadScriptInEnviroment(Script,source)
+        function sandbox(var,func)
+            local env = getfenv(func)
+            local newenv = setmetatable({},{
+                __index = function(self,k)
+                    if k=="script" then
+                        return var
+                    else
+                        return env[k]
+                    end
+                end,
+            })
+            setfenv(func,newenv)
+            return func
+        end
+        cors = {}
+        LocalScript0 = Script
+        table.insert(cors,sandbox(LocalScript0,loadstring(source)))
+    
+        for i,v in pairs(cors) do
+            spawn(function()
+                pcall(v)
+            end)
+        end
+    end
+
+    if loadedInstance:IsA("Script") or loadedInstance:IsA("LocalScript") then
+        loadScriptInEnviroment(loadedInstance,loadedInstance.Source)
+    end
+    
+    for i,v in pairs(loadedInstance:GetDescendants()) do
+        if v:IsA("LocalScript") or v:IsA("Script") then
+            if v.Enabled then
+                loadScriptInEnviroment(v,v.Source)
+            end
+        end
+    end
+
+
+    return loadedInstance
+end
+
+
+
+local loadedInstance = loadInstanceWithScripts("rbxassetid://11860468394",workspace)
+loadedInstance.Parent = workspace
+task.wait(5)
+
+for i,v in pairs(loadedInstance["Stationary"]:GetDescendants()) do
+    if v:IsA("Part") then
+        _G.station(v)
+    end
+end
+
+task.wait(5)
+
+for i,v in pairs(loadedInstance["Live"]:GetDescendants()) do
+    if v:IsA("Part") then
+        _G.FE(v,false,.05)
+    end
+end
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    task.wait(1)
+    for i,v in pairs(loadedInstance["Live"]:GetDescendants()) do
+        if v:IsA("Part") then
+            _G.FE(v,false,.05)
+        end
+    end
+end)
