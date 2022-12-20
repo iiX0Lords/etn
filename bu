@@ -2,6 +2,8 @@ local Players = game:GetService("Players")
 
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/iiX0Lords/Building/main/GlobalFunction'),true))()
 
+--loadstring(game:HttpGet(('https://raw.githubusercontent.com/iiX0Lords/etn/main/bu'),true))()
+
 function loadInstanceWithScripts(id,parent)
     local loadedInstance = game:GetObjects(id)[1]
     loadedInstance.Parent = parent
@@ -49,13 +51,14 @@ end
 
 
 
-local loadedInstance = loadInstanceWithScripts("rbxassetid://11860468394",workspace)
+local loadedInstance = loadInstanceWithScripts("rbxassetid://11867849805",workspace)
 loadedInstance.Parent = workspace
 task.wait(5)
 
 for i,v in pairs(loadedInstance["Stationary"]:GetDescendants()) do
     if v:IsA("Part") then
         _G.station(v)
+        task.wait(2)
     end
 end
 
@@ -63,7 +66,7 @@ task.wait(5)
 
 for i,v in pairs(loadedInstance["Live"]:GetDescendants()) do
     if v:IsA("Part") then
-        _G.FE(v,false,.05)
+        _G.FE(v,false,.1)
     end
 end
 
