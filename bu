@@ -58,7 +58,6 @@ task.wait(5)
 for i,v in pairs(loadedInstance["Stationary"]:GetDescendants()) do
     if v:IsA("Part") then
         _G.station(v)
-        task.wait(.5)
     end
 end
 
